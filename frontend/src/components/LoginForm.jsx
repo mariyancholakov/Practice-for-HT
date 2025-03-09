@@ -1,29 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../context/authContext.jsx";
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5173/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-      if (!res.ok) {
-        console.log("Couldn't login user!");
-        setLoading(false);
-      }
-      const data = await res.json();
-      localStorage.setItem("token", data.token);
-      setUsername("");
-      setPassword("");
+      await login(email, password);
       setLoading(false);
       navigate("/");
     } catch (error) {
@@ -37,11 +27,11 @@ function LoginForm() {
       <form onSubmit={handleLogin} className="flex flex-col gap-6">
         <input
           className="py-3 pl-4 border w-full rounded-sm "
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
