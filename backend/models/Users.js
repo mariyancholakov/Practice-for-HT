@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     savedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
-    commentedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
     likedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
   },
   {
