@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    savedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
+    likedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
   },
   {
     timestamps: true,

@@ -7,6 +7,7 @@ const router = express.Router();
 //register
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
+
   if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -34,7 +35,8 @@ router.post("/register", async (req, res) => {
 //login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
+
+   if (!email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -61,6 +63,36 @@ router.post("/login", async (req, res) => {
         updatedAt: existingUser.updatedAt,
       },
       token: token,
+      });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+//profile
+router.get("/profile", async (req, res) => {
+  try {
+    const token = req.headers?.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decode) => {
+      const user = await User.findById(decode?.id);
+      if (!user) {
+        return res
+          .status(400)
+          .json({ status: false, message: "Invalid token" });
+      }
+      const userData = {
+        id: user?._id,
+        username: user?.username,
+        email: user?.email,
+      };
+      return res
+        .status(201)
+        .json({ status: true, message: "Profile data", data: userData });
     });
   } catch (error) {
     console.error(error);
