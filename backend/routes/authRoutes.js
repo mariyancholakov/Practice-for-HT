@@ -1,13 +1,13 @@
-const express = require("express");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const User = require("../models/Users.js");
+import express from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import User from "../models/Users.js";
 const router = express.Router();
 
 //register
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
-  
+
   if (!username || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -71,4 +71,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -15,9 +15,13 @@ function LoginForm() {
     try {
       await login(email, password);
       setLoading(false);
+      setEmail("");
+      setPassword("");
+      alert("Login successful!");
       navigate("/");
     } catch (error) {
       console.error("Error:", error);
+      setLoading(false);
     }
   };
 
@@ -28,7 +32,7 @@ function LoginForm() {
         <div>
           <label className="ml-2 font-semibold">Email</label>
           <input
-            className="py-1.5 pl-3 w-full mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
+            className="py-1.5 pl-3 w-full mt-1 bg-transparent rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
             type="email"
             name="email"
             value={email}
@@ -38,7 +42,7 @@ function LoginForm() {
         <div>
           <label className="ml-2 font-semibold">Password</label>
           <input
-            className="py-1.5 pl-3 w-full mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
+            className="py-1.5 pl-3 w-full mt-1 bg-transparent rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
             type="password"
             name="password"
             value={password}
@@ -56,7 +60,7 @@ function LoginForm() {
       </form>
       <div className="mt-4">
         <p className="font-light ml-2 mb-1">No account?</p>
-        <button className="py-1.5 pl-3 w-full rounded-full border-purple border-2 focus:outline-none cursor-pointer hover:border-vibrant-purple">
+        <button className="py-1.5 bg-transparent pl-3 w-full rounded-full border-purple border-2 focus:outline-none cursor-pointer hover:border-vibrant-purple">
           <Link to={"/api/auth/register"}>Sign up</Link>
         </button>
       </div>

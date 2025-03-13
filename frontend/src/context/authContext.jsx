@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useEffect, useState } from "react";
-import * as jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await fetch("http://localhost:5173/api/auth/login", {
+      const res = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -31,11 +31,10 @@ export const AuthProvider = ({ children }) => {
       if (!res.ok) {
         console.log("Couldn't login user!");
       }
-
       const data = await res.json();
-
+      console.log(data);
       localStorage.setItem("token", data.token);
-      setUser(jwtDecode(data.user)); //
+      setUser(jwtDecode(data.token)); //
     } catch (error) {
       console.error("Login failed", error);
     }

@@ -12,7 +12,7 @@ function RegisterForm() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5173/api/auth/register", {
+      const res = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password }),
@@ -25,6 +25,7 @@ function RegisterForm() {
       setEmail("");
       setPassword("");
       setLoading(false);
+      alert("Registration successful!");
       navigate("/api/auth/login");
     } catch (error) {
       console.error("Error:", error);
@@ -38,7 +39,7 @@ function RegisterForm() {
         <div>
           <label className="ml-2 font-semibold">Username</label>
           <input
-            className="py-1.5 pl-3 w-full mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
+            className="py-1.5 pl-3 w-full mt-1 rounded-full bg-transparent border-purple border-2 focus:outline-none focus:border-vibrant-purple"
             type="text"
             name="username"
             value={username}
@@ -48,7 +49,7 @@ function RegisterForm() {
         <div>
           <label className="ml-2 font-semibold">Email</label>
           <input
-            className="py-1.5 pl-3 w-full mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
+            className="py-1.5 pl-3 w-full bg-transparent mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
             type="email"
             name="email"
             value={email}
@@ -58,7 +59,7 @@ function RegisterForm() {
         <div>
           <label className="ml-2 font-semibold">Password</label>
           <input
-            className="py-1.5 pl-3 w-full mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
+            className="py-1.5 pl-3 w-full mt-1 bg-transparent rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
             type="password"
             name="password"
             value={password}
