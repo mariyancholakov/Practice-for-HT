@@ -22,46 +22,47 @@ function LoginForm() {
   };
 
   return (
-    <div className="border w-86 h-[60%] px-4 py-5 flex flex-col gap-4">
-      <h2 className="text-lg font-semibold text-center">Login Form</h2>
+    <div className="w-80 h-[60%] px-4 py-5 flex flex-col gap-4">
+      <h2 className="text-3xl font-bold text-center mb-5">Login</h2>
       <form onSubmit={handleLogin} className="flex flex-col gap-6">
-        <input
-          className="py-3 pl-4 border w-full rounded-sm "
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          className="py-3 pl-4 border w-full rounded-sm "
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div>
+          <label className="ml-2 font-semibold">Email</label>
+          <input
+            className="py-1.5 pl-3 w-full mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="ml-2 font-semibold">Password</label>
+          <input
+            className="py-1.5 pl-3 w-full mt-1 rounded-full border-purple border-2 focus:outline-none focus:border-vibrant-purple"
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
         <button
           disabled={loading}
-          className="py-3 pl-4 bg-indigo-500 hover:bg-indigo-400 transition duration-300 ease-in-out cursor-pointer text-center text-white text-lg font-semibold w-full rounded-sm "
+          className="py-2 bg-purple mt-4 hover:bg-vibrant-purple transition duration-300 ease-in-out cursor-pointer text-center text-white text-lg font-semibold w-full rounded-full "
           type="submit"
         >
-          {loading ? "Submitting..." : "Login"}
+          {loading ? "Submitting" : "Login"}
         </button>
       </form>
-      <p className="text-slate-700 text-center">
-        Dont have an account?{" "}
-        <Link
-          className="text-indigo-600 hover:text-indigo-500 transition duration-300 ease-in-out text-center"
-          to={"/api/auth/register"}
-        >
-          Register
-        </Link>
-      </p>
+      <div className="mt-4">
+        <p className="font-light ml-2 mb-1">No account?</p>
+        <button className="py-1.5 pl-3 w-full rounded-full border-purple border-2 focus:outline-none cursor-pointer hover:border-vibrant-purple">
+          <Link to={"/api/auth/register"}>Sign up</Link>
+        </button>
+      </div>
+
       <Link
-        className="text-indigo-600 hover:text-indigo-500 transition duration-300 ease-in-out text-center"
+        className="text-purple font-semibold hover:text-vibrant-purple transition duration-300 ease-in-out text-center"
         to={"/"}
       >
         Go back Home
