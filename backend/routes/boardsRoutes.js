@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from "mongoose";
 import { Board } from '../models/Boards.js';
-import {Post} from "../models/Posts.js";
 const boardRouter = express.Router();
 
 
