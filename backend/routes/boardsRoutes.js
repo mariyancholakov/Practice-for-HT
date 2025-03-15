@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from "mongoose";
 import { Board } from '../models/Boards.js';
+import {Post} from "../models/Posts.js";
 const boardRouter = express.Router();
 
 
@@ -36,6 +37,24 @@ boardRouter.get('/:id', async (req, res) => {
         res.status(200).json(board);
     } catch (err) {
         res.status(500).json({ message: err.message });
+    }
+});
+
+boardRouter.get('/search/:name', async (req, res) => {
+    const { name } = req.params;
+    try {
+        const boards = await Board.find({ name: { $regex: name, $options: 'i' } });
+
+        if (boards.length === 0) {
+            return res.status(404).json({ success: false, message: "No posts found" });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: boards
+        });
+    } catch (error) {
+        return res.status(500).send("Server Error");
     }
 });
 

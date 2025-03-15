@@ -34,22 +34,23 @@ postRouter.get('/:id', async (req, res) => {
     }
 });
 
-postRouter.get('/posts/:name', async (req, res) => {
+postRouter.get('/search/:name', async (req, res) => {
     const { name } = req.params;
     try {
-        const posts = await Post.find({ name: name });
-        if (!posts) {
+        const posts = await Post.find({ name: { $regex: name, $options: 'i' } });
+
+        if (posts.length === 0) {
             return res.status(404).json({ success: false, message: "No posts found" });
         }
+
         return res.status(200).json({
             success: true,
             data: posts
         });
     } catch (error) {
         return res.status(500).send("Server Error");
-    }
+        }
 });
-
 postRouter.put('/:id', async (req, res) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {

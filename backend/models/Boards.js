@@ -10,7 +10,7 @@ const boardSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        image: {
+        imageURL: {
             type: String,
             required: true
         },
@@ -18,7 +18,7 @@ const boardSchema = new mongoose.Schema(
             type: [mongoose.Schema.Types.ObjectId],
             ref: 'Post',
             required: true,
-            validate: [arrayLimit, 'At least three posts are required']
+            validate: [arrayLimit, 'At least two posts are required']
         }
     },
     {
@@ -27,7 +27,7 @@ const boardSchema = new mongoose.Schema(
 );
 
 function arrayLimit(val) {
-    return val.length >= 3;
+    return val.length >= 2;
 }
 
 const Board = mongoose.model("Board", boardSchema);
