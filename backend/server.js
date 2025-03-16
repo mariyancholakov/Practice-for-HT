@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from './routes/authRoutes.js'
 import postsRoutes from './routes/postsRoutes.js'
 import boardsRoutes from './routes/boardsRoutes.js'
+import savePostBoard from './routes/savePostBoard.js'
 import { connectDB } from './config/db.js'
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(cors())
 app.use('/api/auth/', authRoutes)
 app.use('/api/posts/', postsRoutes)
 app.use('/api/boards/', boardsRoutes)
+app.use('api/saved/', savePostBoard)
 
 app.listen(process.env.PORT, () => {
     connectDB().then(() => {
