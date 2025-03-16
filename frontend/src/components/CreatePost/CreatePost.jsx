@@ -1,109 +1,142 @@
 import React, { useState } from "react";
-import styles from "./CreatePost.module.css";
-import { styled } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { TextField, Button } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
-import AddIcon from '@mui/icons-material/Add';
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+import styles from "./CreatePost.module.css";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [files, setFiles] = useState([]);
+  const [description, setDescription] = useState("");
+  const [link, setLink] = useState("");
+  const [board, setBoard] = useState("");
+  const [tag, setTag] = useState("");
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
 
-  function handleTitleChange(event) {
-    setTitle(event.target.value);
-  }
+  const handleFileUpload = (e) => {
+    setFile(e.target.files[0]);
+    if (e.target.files[0]) {
+      setPreview(URL.createObjectURL(e.target.files[0]));
+    }
+  };
 
-  function handleContentChange(event) {
-    setContent(event.target.value);
-  }
+  async function handleCreatePost() {
+    /* const url = "http://localhost:3000/api/posts/"; */
+    /* try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({title, content, file, link, board, tag}),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch {
+      console.error("An error occurred while creating the post");
+    } */
+    const formData = new FormData();
+    formData.append("title:", title);
+    formData.append("description:", description);
+    formData.append("link:", link);
+    formData.append("board:", board);
+    formData.append("tag:", tag);
 
-  function handleFileChange(event) {
-    setFiles(event.target.files);
-  }
+    if (file) {
+      formData.append("file:", file);
+    }
 
-  function handleCreatePost() {
-    //placeholder shtoto nz kak raboti backenda
-    console.log("The title is: " + title);
-    console.log("The content is: " + content);
-    console.log("Images attached: ", files);
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
   }
 
   return (
-    <div className={styles.createPost}>
-      <div className={styles.innerPost}>
-        <h1>Create a Post</h1>
+    <div className={styles.container}>
+      <div className={styles.sections}>
+        <div className={styles.uploadSection}>
+          <h2 className={styles.title}>Click to Upload a Photo</h2>
+          <label className={styles.uploadBox}>
+            {preview ? (
+              <img
+                src={preview}
+                alt="Preview"
+                className={styles.previewImage}
+              />
+            ) : (
+              <UploadIcon className={styles.uploadIcon} />
+            )}
+            <input type="file" hidden onChange={handleFileUpload} />
+          </label>
+        </div>
 
-        <TextField
-          onChange={handleTitleChange}
-          label="Title"
-          variant="outlined"
-          margin="normal"
-          color="secondary"
-          style={{ width: 450 }}
-          helperText="Give a title to your photography post!"
-          required
-        />
-
-        <TextField
-          onChange={handleContentChange}
-          label="Content"
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          multiline
-          rows={5}
-          style={{ width: 450 }}
-          helperText="Share about the backstory of the photos, your inspirations for them, etc."
-        />
-
-        <Button
-          component="label"
-          variant="contained"
-          color="secondary"
-          tabIndex={-1}
-          startIcon={<UploadIcon />}
-          style={{ width: 200, marginTop: 20 }}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "10px 25px",
-          }}
-        >
-          upload photos
-          <VisuallyHiddenInput
-            type="file"
-            onChange={handleFileChange}
-            multiple
+        <div className={styles.formSection}>
+          <TextField
+            variant="outlined"
+            fullWidth
+            label="Add a Title"
+            className={styles.inputField}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            size="small"
+            sx={{ width: 500 }}
+            required
           />
-        </Button>
-
-        <Button
-          onClick={handleCreatePost}
-          variant="contained"
-          disabled={title === ""}
-          style={{ width: 200 }}
-          sx={{
-            padding: "10px",
-          }}
-        >
-          {title === "" ? "Add a title first!" : "Publish post"}
-        </Button >
+          <TextField
+            variant="outlined"
+            fullWidth
+            label="Add a description"
+            className={styles.inputField}
+            multiline
+            rows={4}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            size="small"
+          />
+          <TextField
+            variant="outlined"
+            fullWidth
+            label="Link"
+            className={styles.inputField}
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            size="small"
+          />
+          <TextField
+            variant="outlined"
+            fullWidth
+            label="Choose a board"
+            className={styles.inputField}
+            value={board}
+            onChange={(e) => setBoard(e.target.value)}
+            size="small"
+          />
+          <TextField
+            variant="outlined"
+            fullWidth
+            label="Search for a tag"
+            className={styles.inputField}
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+            size="small"
+          />
+        </div>
       </div>
+      <Button
+        className={styles.postButton}
+        disabled={!title || !file}
+        variant="contained"
+        size="large"
+        sx={{ width: 300 }}
+        onClick={handleCreatePost}
+      >
+        {!title && !file
+          ? "Add a title & image first!"
+          : !title
+          ? "Add a title first!"
+          : !file
+          ? "Add an image first!"
+          : "Create Post"}
+      </Button>
     </div>
   );
 }
