@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import CreatePostPage from "./pages/CreatePostPage";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/api/auth/login" element={<LoginPage />} />
         <Route path="/api/auth/register" element={<RegisterPage />} />
+        <Route path="/posts/create" element={<CreatePostPage />} />
       </Routes>
     </>
   );

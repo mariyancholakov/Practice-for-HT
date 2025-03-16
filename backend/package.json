@@ -10,8 +10,9 @@
     "nodemon": "^3.1.9"
   },
   "scripts": {
-    "dev": "nodemon ./backend/server.js"
+   "dev": "nodemon ./backend/server.js"
   },
+  "type": "module",
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
