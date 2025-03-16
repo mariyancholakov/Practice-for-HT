@@ -10,8 +10,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black">
-      <div className="flex">
+    // <div className="min-h-screen bg-black">
+      <div className="flex bg-black shadow-none">
         {/* Sidebar */}
         <div className="fixed left-0 top-0 h-full w-16 bg-bluelight flex flex-col items-center py-10 space-y-20 shadow-lg">
           <Link to="/" className="text-black hover:text-gray-600 mt-20">
@@ -28,7 +28,7 @@ const Sidebar = () => {
         {/* Main Content */}
         <div className="ml-20 p-7 w-full flex items-center justify-between">
           {/* Search Bar */}
-          <div className="w-full relative">
+          <div className="w-full relative rounded-full">
             <div className="relative">
               <label htmlFor="default-search" className="sr-only">Search</label>
               <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
@@ -65,7 +65,7 @@ const Sidebar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/api/auth/signup" className="block px-4 py-2 text-sm hover:bg-gray-200">
+                    <Link to="/api/auth/register" className="block px-4 py-2 text-sm hover:bg-gray-200">
                       Sign Up
                     </Link>
                   </li>
@@ -75,7 +75,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-    </div>
+    // </div>
   );
 };
 
