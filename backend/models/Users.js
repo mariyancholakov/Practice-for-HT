@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -13,15 +13,18 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     password: {
-      type: String,
-      required: true,
+        type: String,
+        required: true
     },
-    savedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
-    likedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
-  },
-  {
-    timestamps: true,
-  }
-);
+    savedPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    savedBoards: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Board'
+    }]
+})
 
-module.exports = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema)
+export { User as default }
