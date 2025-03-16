@@ -13,17 +13,18 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     password: {
-      type: String,
-      required: true,
+        type: String,
+        required: true
     },
-    savedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
-    likedPhotos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }],
-  },
-  {
-    timestamps: true,
-  }
-);
+    savedPosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    savedBoards: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Board'
+    }]
+})
 
-const User = mongoose.model("User", userSchema);
-
-export default User;
+const User = mongoose.model('User', userSchema)
+export { User as default }
