@@ -27,7 +27,7 @@ export default function CreatePost() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({title, content, file, link, board, tag}),
+        body: JSON.stringify({title, content, preview, link, board, tag}),
       });
       const data = await response.json();
       console.log(data);
@@ -42,7 +42,7 @@ export default function CreatePost() {
     formData.append("tag:", tag);
 
     if (file) {
-      formData.append("file:", file);
+      formData.append("file:", preview);
     }
 
     for (let [key, value] of formData.entries()) {
