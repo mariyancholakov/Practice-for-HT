@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
-import styles from "./CreatePost.module.css";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -11,6 +10,14 @@ export default function CreatePost() {
   const [tag, setTag] = useState("");
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Manrope:wght@300&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }, []);
 
   const handleFileUpload = (e) => {
     setFile(e.target.files[0]);
@@ -51,41 +58,60 @@ export default function CreatePost() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.sections}>
-        <div className={styles.uploadSection}>
-          <h2 className={styles.title}>Click to Upload a Photo</h2>
-          <label className={styles.uploadBox}>
+    <div className="flex flex-col items-center justify-center bg-black h-screen gap-12 p-5 border border-[#3a3a3a]">
+      <div className="flex items-center justify-center bg-black gap-24 p-5">
+        <div className="flex flex-col items-center gap-8">
+          <h2
+            className="text-[#a782e6] text-lg font-bold text-center"
+            style={{ fontFamily: "Montserrat" }}>
+            Click to Upload a Photo
+          </h2>
+          <label className="flex w-64 h-[350px] rounded-lg bg-[#EEEEEE] justify-center items-center border-2 border-dashed border-[#a782e6] overflow-hidden">
             {preview ? (
               <img
                 src={preview}
                 alt="Preview"
-                className={styles.previewImage}
+                className="w-full h-full object-cover"
               />
             ) : (
-              <UploadIcon className={styles.uploadIcon} />
+              <UploadIcon className="text-[#a782e6] text-xl" />
             )}
             <input type="file" hidden onChange={handleFileUpload} />
           </label>
         </div>
 
-        <div className={styles.formSection}>
+        <div className="flex flex-col gap-8 w-fit">
           <TextField
             variant="outlined"
             fullWidth
             label="Add a Title"
-            className={styles.inputField}
+            className="bg-[#EEEEEE] rounded-lg max-w-full"
+            sx={{
+              "& label": {
+                color: "#563A9C",
+                fontFamily: "Manrope, Arial",
+                fontWeight: "800",
+              },
+              width: 500,
+            }}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             size="small"
-            sx={{ width: 500 }}
             required
           />
           <TextField
             variant="outlined"
             fullWidth
             label="Add a description"
-            className={styles.inputField}
+            className="bg-[#EEEEEE] rounded-lg max-w-full"
+            sx={{
+              "& label": {
+                color: "#563A9C",
+                fontFamily: "Manrope, Arial",
+                fontWeight: "800",
+              },
+              width: 500,
+            }}
             multiline
             rows={4}
             value={description}
@@ -96,7 +122,15 @@ export default function CreatePost() {
             variant="outlined"
             fullWidth
             label="Link"
-            className={styles.inputField}
+            className="bg-[#EEEEEE] rounded-lg max-w-full"
+            sx={{
+              "& label": {
+                color: "#563A9C",
+                fontFamily: "Manrope, Arial",
+                fontWeight: "800",
+              },
+              width: 500,
+            }}
             value={link}
             onChange={(e) => setLink(e.target.value)}
             size="small"
@@ -105,7 +139,15 @@ export default function CreatePost() {
             variant="outlined"
             fullWidth
             label="Choose a board"
-            className={styles.inputField}
+            className="bg-[#EEEEEE] rounded-lg max-w-full"
+            sx={{
+              "& label": {
+                color: "#563A9C",
+                fontFamily: "Manrope, Arial",
+                fontWeight: "800",
+              },
+              width: 500,
+            }}
             value={board}
             onChange={(e) => setBoard(e.target.value)}
             size="small"
@@ -114,7 +156,15 @@ export default function CreatePost() {
             variant="outlined"
             fullWidth
             label="Search for a tag"
-            className={styles.inputField}
+            className="bg-[#EEEEEE] rounded-lg max-w-full"
+            sx={{
+              "& label": {
+                color: "#563A9C",
+                fontFamily: "Manrope, Arial",
+                fontWeight: "800",
+              },
+              width: 500,
+            }}
             value={tag}
             onChange={(e) => setTag(e.target.value)}
             size="small"
@@ -122,13 +172,18 @@ export default function CreatePost() {
         </div>
       </div>
       <Button
-        className={styles.postButton}
+        className="postButton"
         disabled={!title || !file}
         variant="contained"
         size="large"
-        sx={{ width: 300 }}
-        onClick={handleCreatePost}
-      >
+        sx={{
+          width: 300,
+          backgroundColor: !title || !file ? "#3a3a3a !important" : "#a782e6",
+          color: !title || !file ? "#888 !important" : "white",
+          cursor: !title || !file ? "not-allowed" : "pointer",
+          opacity: !title || !file ? 0.6 : 1,
+        }}
+        onClick={handleCreatePost}>
         {!title && !file
           ? "Add a title & image first!"
           : !title
