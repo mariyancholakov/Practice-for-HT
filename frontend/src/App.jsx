@@ -10,6 +10,7 @@ function App() {
     <>
       <NavBar />
       <Routes>
+        <Route path="/" element={<MainPage />}></Route>
         <Route path="/api/auth/login" element={<LoginPage />} />
         <Route path="/api/auth/register" element={<RegisterPage />} />
         <Route path="/posts/create" element={<CreatePostPage />} />

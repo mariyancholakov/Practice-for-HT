@@ -75,7 +75,7 @@ export default function CreatePost() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center bg-black h-screen gap-12 p-5 border border-[#3a3a3a]">
+    <div className="flex flex-col items-center justify-center bg-black h-screen gap-12 p-5 border border-[#000000]">
       <div className="flex items-center justify-center bg-black gap-24 p-5">
         <div className="flex flex-col items-center gap-8">
           <h2 className="text-[#a782e6] text-lg font-bold text-center font-montserrat">
