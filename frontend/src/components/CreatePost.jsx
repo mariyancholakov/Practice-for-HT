@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
-import styles from "./CreatePost.module.css";
 
 export default function CreatePost() {
   const [inputs, setInputs] = useState({
@@ -87,10 +86,10 @@ export default function CreatePost() {
               <img
                 src={preview}
                 alt="Preview"
-                className={styles.previewImage}
+                className="w-full h-full object-cover"
               />
             ) : (
-              <UploadIcon className={styles.uploadIcon} />
+              <UploadIcon className="text-[#a782e6] text-xl" />
             )}
             <input type="file" hidden onChange={handleFileUpload} />
           </label>
@@ -135,8 +134,7 @@ export default function CreatePost() {
           cursor: !inputs.title || !file ? "not-allowed" : "pointer",
           opacity: !inputs.title || !file ? 0.6 : 1,
         }}
-        onClick={handleCreatePost}
-      >
+        onClick={handleCreatePost}>
         {!inputs.title && !file
           ? "Add a title & image first!"
           : !inputs.title
