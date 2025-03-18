@@ -8,7 +8,7 @@ import NavBar from "./pages/NavBar";
 function App() {
   return (
     <>
-      <NavBar/>
+      <NavBar />
       <Routes>
         <Route path="/api/auth/login" element={<LoginPage />} />
         <Route path="/api/auth/register" element={<RegisterPage />} />
