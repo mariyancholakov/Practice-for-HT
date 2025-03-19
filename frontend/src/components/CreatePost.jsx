@@ -13,7 +13,7 @@ export default function CreatePost() {
   });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const fileInputRef = useRef(null);  // Reference to the file input
+  const fileInputRef = useRef(null);
 
   const handleFileUpload = (e) => {
     const uploadedFile = e.target.files[0];
@@ -72,10 +72,9 @@ export default function CreatePost() {
         board: "",
         tags: "",
       });
-      setPreview(null); // Reset the preview
-      setFile(null); // Reset the file
+      setPreview(null);
+      setFile(null);
 
-      // Reset the file input to allow selecting the same file again
       if (fileInputRef.current) {
         fileInputRef.current.value = null;
       }
@@ -121,7 +120,7 @@ export default function CreatePost() {
               type="file"
               hidden
               onChange={handleFileUpload}
-              ref={fileInputRef} // Attach ref to the file input
+              ref={fileInputRef}
             />
           </label>
         </div>
