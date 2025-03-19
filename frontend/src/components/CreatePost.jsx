@@ -41,13 +41,10 @@ export default function CreatePost() {
     formData.append("file", file);
 
     const toastOptions = {
-      position: "top-center",
+      position: "bottom-right",
       autoClose: 3000,
-      hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
     };
 
     try {
@@ -83,6 +80,20 @@ export default function CreatePost() {
         ...toastOptions,
         style: { backgroundColor: "#f44336", color: "#fff" },
       });
+
+      setInputs({
+        title: "",
+        description: "",
+        link: "",
+        board: "",
+        tags: "",
+      });
+      setPreview(null);
+      setFile(null);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
     }
   }
 
