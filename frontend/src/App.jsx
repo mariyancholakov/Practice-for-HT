@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import MainPage from "./pages/MainPage";
 import NavBar from "./pages/NavBar";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 function App() {
   return (
     <>
@@ -13,7 +14,9 @@ function App() {
         <Route path="/" element={<MainPage />}></Route>
         <Route path="/api/auth/login" element={<LoginPage />} />
         <Route path="/api/auth/register" element={<RegisterPage />} />
-        <Route path="/posts/create" element={<CreatePostPage />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/posts/create" element={<CreatePostPage />} />
+        </Route>
       </Routes>
     </>
   );

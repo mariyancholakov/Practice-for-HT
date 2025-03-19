@@ -15,10 +15,13 @@ function LoginForm() {
     try {
       await login(email, password);
       setLoading(false);
-      setEmail("");
-      setPassword("");
-      alert("Login successful!");
-      navigate("/");
+      const token = localStorage.getItem("token");
+      if (token) {
+        alert("Login successful!");
+        navigate("/");
+      } else {
+        alert("Login failed!");
+      }
     } catch (error) {
       console.error("Error:", error);
       setLoading(false);
