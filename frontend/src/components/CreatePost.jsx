@@ -12,6 +12,7 @@ export default function CreatePost() {
   });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [postSuccess, setPostSuccess] = useState(null);
 
   const handleFileUpload = (e) => {
     const uploadedFile = e.target.files[0];
@@ -36,11 +37,7 @@ export default function CreatePost() {
     formData.append("name", inputs.title);
     formData.append("description", inputs.description);
     formData.append("tags", inputs.tags);
-    if (file) formData.append("file", file);
-    else {
-      console.error("No file selected!");
-      return;
-    }
+    formData.append("file", file);
 
     try {
       const response = await fetch(url, {
@@ -49,15 +46,23 @@ export default function CreatePost() {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Error response:", errorText);
+        setPostSuccess(false);
         return;
       }
 
-      const data = await response.json();
-      console.log("Post created:", data);
+      setPostSuccess(true);
+
+      setInputs({
+        title: "",
+        description: "",
+        link: "",
+        board: "",
+        tags: "",
+      });
+      setFile(null);
+      setPreview(null);
     } catch (error) {
-      console.error("An error occurred while creating the post", error);
+      setPostSuccess(false);
     }
   }
 
@@ -71,14 +76,28 @@ export default function CreatePost() {
     },
     { name: "link", label: "Link" },
     { name: "board", label: "Choose a Board" },
-    { name: "tags", label: "Search for a tags" },
+    { name: "tags", label: "Search for tags" },
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center bg-black h-screen gap-12 p-5 border border-[#000000]">
-      <div className="flex items-center justify-center bg-black gap-24 p-5">
+    <div className="flex flex-col items-center justify-center bg-black h-screen gap-8">
+      {postSuccess !== null && (
+        <div
+          className={`fixed top-34 p-4 rounded-lg shadow-lg text-white text-lg font-bold flex flex-col items-center justify-center w-90 h-34 ${
+            postSuccess ? "bg-green-500" : "bg-red-500"
+          }`}>
+          {postSuccess ? "Post creation successful!" : "Post creation failed!"}
+          <button
+            className="mt-3 px-4 py-1 bg-white text-black rounded-md"
+            onClick={() => setPostSuccess(null)}>
+            OK
+          </button>
+        </div>
+      )}
+
+      <div className="flex items-center justify-center bg-black gap-24">
         <div className="flex flex-col items-center gap-8">
-          <h2 className="text-[#a782e6] text-lg font-bold text-center font-montserrat">
+          <h2 className="text-[#a782e6] text-lg font-bold text-center">
             Click to Upload a Photo
           </h2>
           <label className="flex w-64 h-[350px] rounded-lg bg-[#EEEEEE] justify-center items-center border-2 border-dashed border-[#a782e6] overflow-hidden">
@@ -103,7 +122,7 @@ export default function CreatePost() {
               variant="outlined"
               fullWidth
               label={label}
-              className="bg-[#EEEEEE] rounded-lg max-w-full font-montserrat"
+              className="bg-[#EEEEEE] rounded-lg"
               sx={{
                 "& label": {
                   color: "#563A9C",
