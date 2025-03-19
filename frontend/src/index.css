@@ -1,6 +1,11 @@
 @import "https://fonts.googleapis.com/css2?family=Manrope:wght@300&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap";
 @import "tailwindcss";
 
+.Toastify__progress-bar {
+    background-color: #ffffff !important;
+    height: 5px !important;
+  }
+
 @theme {
     --font-montserrat: "Montserrat";
     --color-purple: #46299F;

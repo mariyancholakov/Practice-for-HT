@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { TextField, Button } from "@mui/material";
 import UploadIcon from "@mui/icons-material/Upload";
+import { toast } from "react-toastify";
 
 export default function CreatePost() {
   const [inputs, setInputs] = useState({
@@ -12,7 +13,7 @@ export default function CreatePost() {
   });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [postSuccess, setPostSuccess] = useState(null);
+  const fileInputRef = useRef(null);  // Reference to the file input
 
   const handleFileUpload = (e) => {
     const uploadedFile = e.target.files[0];
@@ -39,6 +40,16 @@ export default function CreatePost() {
     formData.append("tags", inputs.tags);
     formData.append("file", file);
 
+    const toastOptions = {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    };
+
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -46,11 +57,13 @@ export default function CreatePost() {
       });
 
       if (!response.ok) {
-        setPostSuccess(false);
         return;
       }
 
-      setPostSuccess(true);
+      toast.success("Post creation successful!", {
+        ...toastOptions,
+        style: { backgroundColor: "#4caf50", color: "#fff" },
+      });
 
       setInputs({
         title: "",
@@ -59,10 +72,18 @@ export default function CreatePost() {
         board: "",
         tags: "",
       });
-      setFile(null);
-      setPreview(null);
+      setPreview(null); // Reset the preview
+      setFile(null); // Reset the file
+
+      // Reset the file input to allow selecting the same file again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
     } catch (error) {
-      setPostSuccess(false);
+      toast.error("Post creation failed!", {
+        ...toastOptions,
+        style: { backgroundColor: "#f44336", color: "#fff" },
+      });
     }
   }
 
@@ -81,20 +102,6 @@ export default function CreatePost() {
 
   return (
     <div className="flex flex-col items-center justify-center bg-black h-screen gap-8">
-      {postSuccess !== null && (
-        <div
-          className={`fixed top-34 p-4 rounded-lg shadow-lg text-white text-lg font-bold flex flex-col items-center justify-center w-90 h-34 ${
-            postSuccess ? "bg-green-500" : "bg-red-500"
-          }`}>
-          {postSuccess ? "Post creation successful!" : "Post creation failed!"}
-          <button
-            className="mt-3 px-4 py-1 bg-white text-black rounded-md"
-            onClick={() => setPostSuccess(null)}>
-            OK
-          </button>
-        </div>
-      )}
-
       <div className="flex items-center justify-center bg-black gap-24">
         <div className="flex flex-col items-center gap-8">
           <h2 className="text-[#a782e6] text-lg font-bold text-center">
@@ -110,7 +117,12 @@ export default function CreatePost() {
             ) : (
               <UploadIcon className="text-[#a782e6] text-xl" />
             )}
-            <input type="file" hidden onChange={handleFileUpload} />
+            <input
+              type="file"
+              hidden
+              onChange={handleFileUpload}
+              ref={fileInputRef} // Attach ref to the file input
+            />
           </label>
         </div>
 
